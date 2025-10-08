@@ -147,6 +147,21 @@
             vertical-align: middle; 
         }
 
+        /* --- REVISI: Pastikan header tabel memiliki background putih solid agar tidak transparan saat scroll --- */
+        .data-table thead th {
+            /* Properti yang sudah ada: */
+            font-size: 0.7rem;
+            padding: 0.5rem 0.6rem;
+            position: sticky; /* Pastikan tetap sticky */
+            top: 0; /* Pastikan menempel di atas */
+            z-index: 10; /* Pastikan di atas konten tabel */
+            
+            /* REVISI: Tambahkan background putih solid */
+            background-color: white; 
+            /* Tambahkan box shadow tipis agar terlihat terpisah dari data */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
+        }
+
         /* Gaya Khusus untuk kolom Nama (untuk fungsi klik salin) */
         .copy-on-click {
             cursor: pointer; 
@@ -161,7 +176,7 @@
         
         /* --- Gaya Scrollable Data --- */
         .scrollable-data {
-            max-height: 250px; /* Dikurangi dari 350px */
+            max-height: 350px; /* Dikurangi dari 350px */
             overflow-y: auto; 
             border: 1px solid var(--border-color);
             border-radius: var(--glass-br);
@@ -293,10 +308,14 @@
 </head>
 <body class="min-h-screen">
 
-    <div class="main-container mx-auto space-y-3"> <header class="text-center pt-1 pb-1"> <h1 class="font-extrabold mb-0.5">Data Tamu Undangan Online</h1> <p class="text-xs text-gray-600">Tamu Undangan Kami Chusnul - Tri 2025</p>
+    <div class="main-container mx-auto space-y-3">
+        <header class="text-center pt-1 pb-1">
+            <h1 class="font-extrabold mb-0.5">Tamu Undangan Online</h1>
+            <p class="text-xs text-gray-600">List Tamu Undangan Kita • Chusnul & Tri • 2025 </p>
         </header>
 
-        <div class="flex justify-between glass-card p-0.5 shadow-sm border-b border-gray-200"> <button 
+        <div class="flex justify-between glass-card p-0.5 shadow-sm border-b border-gray-200">
+            <button 
                 id="tabChusnul" 
                 onclick="changeSheet('Tamu Chusnul')"
                 class="tab-button tab-active">
@@ -310,8 +329,12 @@
             </button>
         </div>
 
-        <div id="messageArea" class="hidden"></div> <div class="glass-card">
-            <h2 class="text-sm font-semibold text-gray-800 mb-2" id="inputSectionTitle">Input Data Baru (Tamu Chusnul)</h2> <form id="dataForm" class="flex flex-col sm:flex-row space-y-1.5 sm:space-y-0 sm:space-x-1.5"> <input
+        <div id="messageArea" class="hidden"></div>
+        
+        <div class="glass-card">
+            <h2 class="text-sm font-semibold text-gray-800 mb-2" id="inputSectionTitle">Input Data Baru (Tamu Chusnul)</h2>
+            <form id="dataForm" class="flex flex-col sm:flex-row space-y-1.5 sm:space-y-0 sm:space-x-1.5">
+                <input
                     type="text"
                     id="inputNama"
                     placeholder="Masukkan Nama Lengkap"
@@ -324,7 +347,8 @@
                     class="btn-primary font-semibold shadow-md hover:shadow-lg transition duration-150 ease-in-out disabled:opacity-50 flex items-center justify-center"
                 >
                     <span id="saveButtonText">Simpan Data</span>
-                    <svg id="saveSpinner" class="animate-spin -ml-1 mr-1 h-3 w-3 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"> <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <svg id="saveSpinner" class="animate-spin -ml-1 mr-1 h-3 w-3 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                 </button>
@@ -332,35 +356,50 @@
         </div>
 
         <div class="glass-card">
-            <h2 class="text-sm font-semibold text-gray-800 mb-2" id="dataSectionTitle">Data Tersimpan (Tamu Chusnul)</h2> <div id="loadingIndicator" class="text-center py-3 text-xs text-gray-500"> <svg class="animate-spin h-5 w-5 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"> <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <h2 class="text-sm font-semibold text-gray-800 mb-2" id="dataSectionTitle">Data Tersimpan (Tamu Chusnul)</h2>
+            
+            <div id="loadingIndicator" class="text-center py-3 text-xs text-gray-500">
+                <svg class="animate-spin h-5 w-5 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                <p class="mt-0.5">Memuat data...</p> </div>
+                <p class="mt-0.5">Memuat data...</p>
+            </div>
 
             <div class="overflow-x-auto scrollable-data shadow-inner bg-white bg-opacity-80">
                 <table class="min-w-full data-table border-collapse" id="dataTable">
                     <thead>
                         <tr class="text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                            <th class="py-1.5 px-2 sticky top-0 z-10">No.</th> <th class="py-1.5 px-2 sticky top-0 z-10">Nama</th>
-                            <th class="py-1.5 px-2 text-center sticky top-0 z-10 w-24">Status</th> <th class="py-1.5 px-2 text-center sticky top-0 z-10 w-16">Aksi</th> </tr>
+                            <th class="py-1.5 px-2 sticky top-0 z-10">No.</th>
+                            <th class="py-1.5 px-2 sticky top-0 z-10">Nama</th>
+                            <th class="py-1.5 px-2 text-center sticky top-0 z-10 w-24">Status</th>
+                            <th class="py-1.5 px-2 text-center sticky top-0 z-10 w-16">Aksi</th>
+                        </tr>
                     </thead>
                     <tbody id="tableBody" class="divide-y divide-gray-200">
                         </tbody>
                 </table>
             </div>
             
-            <p id="noDataMessage" class="hidden text-center py-2 text-gray-500 text-xs">Belum ada data yang tersimpan.</p> </div>
+            <p id="noDataMessage" class="hidden text-center py-2 text-gray-500 text-xs">Belum ada data yang tersimpan.</p>
+        </div>
     </div>
 
-    <div id="editModal" class="modal modal-closed fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 p-2"> <div class="modal-content p-3 w-full max-w-xs"> <h3 class="text-base font-bold mb-2">Edit Data Nama</h3> <form id="editForm">
+    <div id="editModal" class="modal modal-closed fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 p-2">
+        <div class="modal-content p-3 w-full max-w-xs">
+            <h3 class="text-base font-bold mb-2">Edit Data Nama</h3>
+            <form id="editForm">
                 <input type="hidden" id="editId">
-                <div class="mb-2"> <label for="editNama" class="block text-xs font-medium text-gray-700 mb-0.5">Nama Lengkap</label> <input
+                <div class="mb-2">
+                    <label for="editNama" class="block text-xs font-medium text-gray-700 mb-0.5">Nama Lengkap</label>
+                    <input
                         type="text"
                         id="editNama"
                         required
                         class="w-full shadow-sm text-xs" >
                 </div>
-                <div class="flex justify-end space-x-1.5"> <button
+                <div class="flex justify-end space-x-1.5">
+                    <button
                         type="button"
                         onclick="closeEditModal()"
                         class="bg-gray-200 text-gray-700 font-semibold py-1 px-2 rounded-md text-xs hover:bg-gray-300 transition duration-150" >
@@ -377,7 +416,12 @@
         </div>
     </div>
 
-    <div id="confirmModal" class="modal modal-closed fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 p-2"> <div class="modal-content p-3 w-full max-w-xs"> <h3 class="text-base font-bold mb-2 text-gray-800"><i class="fas fa-exclamation-triangle text-yellow-500 mr-1"></i> Konfirmasi Hapus</h3> <p id="confirmMessage" class="mb-3 text-gray-700 text-xs">Apakah Anda yakin ingin menghapus data ini? Aksi ini tidak dapat dibatalkan.</p> <div class="flex justify-end space-x-1.5"> <button
+    <div id="confirmModal" class="modal modal-closed fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50 p-2">
+        <div class="modal-content p-3 w-full max-w-xs">
+            <h3 class="text-base font-bold mb-2 text-gray-800"><i class="fas fa-exclamation-triangle text-yellow-500 mr-1"></i> Konfirmasi Hapus</h3>
+            <p id="confirmMessage" class="mb-3 text-gray-700 text-xs">Apakah Anda yakin ingin menghapus data ini? Aksi ini tidak dapat dibatalkan.</p>
+            <div class="flex justify-end space-x-1.5">
+                <button
                     type="button"
                     onclick="closeConfirmModal(false)"
                     class="bg-gray-200 text-gray-700 font-semibold py-1 px-2 rounded-md text-xs hover:bg-gray-300 transition duration-150" >
@@ -387,7 +431,8 @@
                     type="button"
                     id="confirmDeleteButton"
                     class="btn-delete text-white font-semibold py-1 px-2 rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out text-xs" >
-                    <i class="fas fa-trash-alt mr-0.5"></i> Ya, Hapus </button>
+                    <i class="fas fa-trash-alt mr-0.5"></i> Ya, Hapus
+                </button>
             </div>
         </div>
     </div>
@@ -420,31 +465,31 @@
         // ====================================================================
         
         // Elemen DOM yang digunakan
-        const dataForm = document.getElementById('dataForm');
-        const inputNama = document.getElementById('inputNama');
-        const tableBody = document.getElementById('tableBody');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const noDataMessage = document.getElementById('noDataMessage');
+        const dataForm = document.getElementById('dataForm'); // Form input data baru
+        const inputNama = document.getElementById('inputNama'); // Input nama baru
+        const tableBody = document.getElementById('tableBody'); // Body tabel untuk data tamu
+        const loadingIndicator = document.getElementById('loadingIndicator'); // Indikator loading data
+        const noDataMessage = document.getElementById('noDataMessage'); // Pesan jika tidak ada data
         const editModal = document.getElementById('editModal'); // Modal Edit
-        const editForm = document.getElementById('editForm');
-        const editId = document.getElementById('editId');
-        const editNama = document.getElementById('editNama');
-        const saveButton = document.getElementById('saveButton');
-        const saveButtonText = document.getElementById('saveButtonText');
-        const saveSpinner = document.getElementById('saveSpinner');
-        const inputSectionTitle = document.getElementById('inputSectionTitle');
-        const dataSectionTitle = document.getElementById('dataSectionTitle');
-        const tabChusnul = document.getElementById('tabChusnul');
-        const tabTri = document.getElementById('tabTri');
+        const editForm = document.getElementById('editForm'); // Form edit nama
+        const editId = document.getElementById('editId'); // Input hidden ID di modal edit
+        const editNama = document.getElementById('editNama'); // Input nama di modal edit
+        const saveButton = document.getElementById('saveButton'); // Tombol Simpan Data Baru
+        const saveButtonText = document.getElementById('saveButtonText'); // Teks tombol Simpan
+        const saveSpinner = document.getElementById('saveSpinner'); // Spinner tombol Simpan
+        const inputSectionTitle = document.getElementById('inputSectionTitle'); // Judul bagian input
+        const dataSectionTitle = document.getElementById('dataSectionTitle'); // Judul bagian data
+        const tabChusnul = document.getElementById('tabChusnul'); // Tombol tab Tamu Chusnul
+        const tabTri = document.getElementById('tabTri'); // Tombol tab Tamu Tri
         
         // Elemen DOM untuk Notifikasi
-        const toastModal = document.getElementById('toastModal');
-        const toastContent = document.getElementById('toastContent');
+        const toastModal = document.getElementById('toastModal'); // Kontainer toast
+        const toastContent = document.getElementById('toastContent'); // Isi pesan toast
         
         // Elemen DOM untuk Modal Konfirmasi Hapus
-        const confirmModal = document.getElementById('confirmModal');
-        const confirmMessage = document.getElementById('confirmMessage');
-        const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+        const confirmModal = document.getElementById('confirmModal'); // Modal konfirmasi
+        const confirmMessage = document.getElementById('confirmMessage'); // Pesan konfirmasi
+        const confirmDeleteButton = document.getElementById('confirmDeleteButton'); // Tombol Ya, Hapus
 
         // Variabel global untuk menyimpan data yang sedang aktif
         let currentData = [];
@@ -463,7 +508,7 @@
             let colorClass = '';
             // Tentukan ikon dan kelas warna berdasarkan tipe
             if (type === 'success') {
-                icon = '<i class="fas fa-check-circle mr-1"></i>'; // mr-2 diubah menjadi mr-1
+                icon = '<i class="fas fa-check-circle mr-1"></i>';
                 colorClass = 'toast-success';
             } else if (type === 'error') {
                 icon = '<i class="fas fa-times-circle mr-1"></i>';
@@ -476,7 +521,7 @@
             toastContent.innerHTML = `${icon}${message}`;
             toastContent.className = `toast-content ${colorClass}`;
             
-            // Tampilkan toast
+            // Tampilkan toast dengan penundaan kecil
             setTimeout(() => {
                 toastContent.classList.add('toast-show');
             }, 50); 
